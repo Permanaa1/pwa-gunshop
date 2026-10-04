@@ -1,32 +1,76 @@
 import { useRef } from 'react'
 
-function GunCard({ gun }) {
+function GunCard({ gun, onAddToCart }) {
   const popup = useRef(null)
 
   return (
     <li className="card">
-      <button className="card-btn" onClick={() => popup.current.showModal()}>
-        <img className="card-img" src={gun.image} alt="" width="120" height="90" />
-        <span className="name display">{gun.name}</span>
+      <button
+        className="card-btn"
+        onClick={() => popup.current?.showModal()}
+      >
+        <div className="card-img-wrap">
+          <img
+            className="card-img"
+            src={gun.image}
+            alt={gun.name}
+          />
+        </div>
+
+        <span className="name display">
+          {gun.name}
+        </span>
+
         <span className="type">
           {gun.type} · {gun.caliber}
         </span>
-        <span className="price">${gun.price.toLocaleString()}</span>
+
+        <span className="price">
+          ${gun.price.toLocaleString()}
+        </span>
+      </button>
+
+      {/* ADD TO CART */}
+      <button
+        className="add-cart-btn"
+        onClick={() => onAddToCart(gun)}
+      >
+        Add to Cart
       </button>
 
       <dialog
         className="popup"
         ref={popup}
-        onClick={(e) => e.target === popup.current && popup.current.close()}
+        onClick={(e) =>
+          e.target === popup.current &&
+          popup.current.close()
+        }
       >
-        <img className="popup-img" src={gun.image} alt="" width="240" height="180" />
-        <h3 className="display">{gun.name}</h3>
+        <div className="popup-img-wrap">
+          <img
+            className="popup-img"
+            src={gun.image}
+            alt={gun.name}
+          />
+        </div>
+
+        <h3 className="display">
+          {gun.name}
+        </h3>
+
         <p className="type">
-          {gun.type} · {gun.caliber} · <span className="price">${gun.price.toLocaleString()}</span>
+          {gun.type} · {gun.caliber} ·{' '}
+          <span className="price">
+            ${gun.price.toLocaleString()}
+          </span>
         </p>
+
         <p>{gun.description}</p>
+
         <form method="dialog">
-          <button className="popup-close">Close</button>
+          <button className="popup-close">
+            Close
+          </button>
         </form>
       </dialog>
     </li>
